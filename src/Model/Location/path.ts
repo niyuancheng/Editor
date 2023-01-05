@@ -14,6 +14,7 @@ export interface PathInterface {
   isBefore: (path: Path, another: Path) => boolean;
   isAncestor: (path: Path, another: Path) => boolean;
   isDescendant: (path: Path, another: Path) => boolean;
+  isChild: (path: Path, another: Path) => boolean;
   next: (path: Path) => Path | never;
   before: (path: Path) => Path | never;
 }
@@ -78,6 +79,12 @@ export const PathUtils: PathInterface = {
 
   isDescendant(path: Path, another: Path): boolean {
     return path.length > another.length && this.compare(path, another) === 0;
+  },
+
+  isChild(path: Path, another: Path): boolean {
+    return (
+      path.length === another.length + 1 && this.compare(path, another) === 0
+    );
   },
 
   isBefore(path: Path, another: Path): boolean {
