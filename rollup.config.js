@@ -11,30 +11,30 @@ export default defineConfig([
 
     output: [
       {
-        file: "./dist/editor.cjs.js",
+        file: "./lib/editor.cjs.js",
         format: "cjs",
       },
       {
-        file: "./dist/editor.min.cjs.js",
+        file: "./lib/editor.min.cjs.js",
         format: "cjs",
         plugins:[terser()]
       },
       {
-        file: "./dist/editor.es.js",
+        file: "./lib/editor.es.js",
         format: "es",
       },
       {
-        file: "./dist/editor.min.es.js",
+        file: "./lib/editor.min.es.js",
         format: "es",
         plugins:[terser()]
       },
       {
-        file: "./dist/editor.umd.js",
+        file: "./lib/editor.umd.js",
         format: "umd",
         name: "Editor",
       },
       {
-        file: "./dist/editor.min.umd.js",
+        file: "./lib/editor.min.umd.js",
         format: "umd",
         name: "Editor",
         plugins:[terser()]
