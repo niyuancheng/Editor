@@ -56,17 +56,17 @@ export const TextUtils: TextInterface = {
         let { text } = leaf;
         let leafStart = leafEnd;
         leafEnd += text.length;
-        //1.Range完全超出了字符串的范围
+        // 1.Range完全超出了字符串的范围
         if (end.offset <= leafStart || start.offset >= leafEnd) {
           next.push(leaf);
           continue;
         }
-        //2.Range完全覆盖字符串
+        // 2.Range完全覆盖字符串
         if (start.offset <= leafStart && end.offset >= leafEnd) {
           next.push(leaf);
           continue;
         }
-        //3.有部分相交,但字符串没有完全包含Range
+        // 3.有部分相交,但字符串没有完全包含Range
         if (
           (start.offset <= leafStart &&
             end.offset < leafEnd &&
@@ -86,7 +86,7 @@ export const TextUtils: TextInterface = {
             }
             continue;
         }
-        //4.字符串完全包含了Range
+        // 4.字符串完全包含了Range
         let s = start.offset;
         let e = end.offset;
         next.push(text.slice(leafStart,s));
