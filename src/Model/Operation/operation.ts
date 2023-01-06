@@ -34,27 +34,57 @@ export type MergeNodeOperation = ExtendedTypes<
   BaseMergeNodeOperation
 >;
 
-// 分割节点
+// 分割节点,count为划分点，也就是决定从path指代节点的第count个子节点开始划分
 export type BaseSplitNodeOperation = {
-    type: "split_node";
-    path: Path;
-    count: number;
+  type: "split_node";
+  path: Path;
+  count: number;
+};
+export type SplitNodeOperation = ExtendedTypes<
+  "SplitNodeOperation",
+  BaseSplitNodeOperation
+>;
+
+//移动节点
+export type BaseMoveNodeOperation = {
+  type:"move_node";
+  path:Path;
+  newPath:Path;
 }
-export type SplitNodeOperation = ExtendedTypes<"SplitNodeOperation",BaseSplitNodeOperation>;
+export type MoveNodeOperation = ExtendedTypes<"MoveNodeOperation",BaseMoveNodeOperation>;
+
+//对节点的操作类型
+export type NodeOperation =
+  | InsertNodeOperation
+  | RemoveNodeOperation
+  | MergeNodeOperation
+  | MoveNodeOperation
+  | SplitNodeOperation;
 
 // 插入文本
 export type BaseInsertTextOperation = {
-    type: "insert_text",
-    path: Path;
-    offset: number;
-    text: string;
-}
-export type InsertTextOperation = ExtendedTypes<"InsertTextOperation",BaseInsertTextOperation>;
+  type: "insert_text";
+  path: Path;
+  offset: number;
+  text: string;
+};
+export type InsertTextOperation = ExtendedTypes<
+  "InsertTextOperation",
+  BaseInsertTextOperation
+>;
 
 //删除文本
 export type BaseRemoveTextOperation = {
-    type: "remove_text",
-    path: Path;
-    offset: number;
-}
-export type RemoveTextOperation = ExtendedTypes<"RemoveTextOperation",BaseRemoveTextOperation>;
+  type: "remove_text";
+  path: Path;
+  offset: number;
+};
+export type RemoveTextOperation = ExtendedTypes<
+  "RemoveTextOperation",
+  BaseRemoveTextOperation
+>;
+
+//对文本的操作类型
+export type TextOperation = InsertTextOperation | RemoveTextOperation;
+
+export type Operation = NodeOperation | TextOperation;

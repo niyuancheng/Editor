@@ -5,6 +5,7 @@ export type OperationType =
   | "RemoveNodeOperation"
   | "MergeNodeOperation"
   | "SplitNodeOperation"
+  | "MoveNodeOperation"
   | "InsertTextOperation"
   | "RemoveTextOperation";
 export type ExtendableTypes = NodeType | LocationType | OperationType;
