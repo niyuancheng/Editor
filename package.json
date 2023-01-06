@@ -2,7 +2,7 @@
   "name": "nieditor",
   "version": "1.0.0",
   "description": "Rich Text Editor",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "rollup -cw"
   },
