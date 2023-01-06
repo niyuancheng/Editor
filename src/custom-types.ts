@@ -1,7 +1,13 @@
 export type NodeType = "Editor" | "Element" | "Text";
-export type LocationType = "Range" | "Point" | "Path";
-
-export type ExtendableTypes = NodeType | LocationType;
+export type LocationType = "Selection" | "Range" | "Point" | "Path";
+export type OperationType =
+  | "InsertNodeOperation"
+  | "RemoveNodeOperation"
+  | "MergeNodeOperation"
+  | "SplitNodeOperation"
+  | "InsertTextOperation"
+  | "RemoveTextOperation";
+export type ExtendableTypes = NodeType | LocationType | OperationType;
 
 export interface CustomType {
   [props: string]: unknown;

@@ -17,6 +17,9 @@ export interface PathInterface {
   isChild: (path: Path, another: Path) => boolean;
   next: (path: Path) => Path | never;
   before: (path: Path) => Path | never;
+  endsAfter: (path: Path, another: Path) => boolean;
+  endsAt: (path: Path, another: Path) => boolean;
+  endsBefore: (path: Path, another: Path) => boolean;
 }
 
 export const PathUtils: PathInterface = {
@@ -110,5 +113,29 @@ export const PathUtils: PathInterface = {
       throw new Error("传入的path不存在前继节点");
     }
     return path.slice(0, path.length - 1).concat(last - 1);
+  },
+
+  endsAfter(path:Path, another:Path): boolean {
+    if(path.length === another.length) {
+      let i = path.length;
+      return path[i-1] > another[i-1];
+    } 
+    return false;
+  },
+
+  endsBefore(path:Path, another:Path): boolean {
+    if(path.length === another.length) {
+      let i = path.length;
+      return path[i-1] < another[i-1];
+    } 
+    return false;
+  },
+
+  endsAt(path:Path, another:Path): boolean {
+    if(path.length === another.length) {
+      let i = path.length;
+      return this.equals(path.slice(0,i-1),another.slice(0,i-1));
+    }
+    return false;
   },
 };

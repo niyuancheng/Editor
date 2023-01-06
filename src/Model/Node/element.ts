@@ -1,7 +1,7 @@
 import { ExtendedTypes } from "../../custom-types";
 import { isPlainObject } from "is-plain-object";
 import { ElementProps } from "./element-props";
-import { Descedent, Ancestor, Editor } from "./node";
+import { Descedent, Ancestor } from "./node";
 import { Text, TextUtils } from "./text";
 
 export interface BaseElement {
