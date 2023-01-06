@@ -1,6 +1,6 @@
 import { ExtendedTypes } from "../../custom-types";
 import { MergeNodeOperation, Operation, SplitNodeOperation } from "../Operation/operation";
-import { PathTransformOptions } from "./path-transfrom-options";
+import { PathTransformOptions } from "../../types/index";
 
 export type BasePath = number[];
 
