@@ -22,7 +22,7 @@ export interface PathInterface {
   endsAfter: (path: Path, another: Path) => boolean;
   endsAt: (path: Path, another: Path) => boolean;
   endsBefore: (path: Path, another: Path) => boolean;
-  transform: (path: Path, operation: Operation ,options?: PathTransformOptions) => Path | never;
+  transform: (path: Path, operation: Operation ,options?: PathTransformOptions) => Path | null;
 }
 
 export const PathUtils: PathInterface = {
@@ -146,7 +146,7 @@ export const PathUtils: PathInterface = {
     return this.equals(as, bs);
   },
 
-  transform(path:Path, operation:Operation, options: PathTransformOptions = {}): Path | never | null {
+  transform(path:Path, operation:Operation, options: PathTransformOptions = {}): Path | null {
     let p = [...path];
     let { path:op } = operation;
     let { direction = "forward" } = options;
