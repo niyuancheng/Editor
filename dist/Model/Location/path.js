@@ -108,7 +108,10 @@ export const PathUtils = {
         let { direction = "forward" } = options;
         switch (operation.type) {
             case "insert_node":
-                if (this.isAncestor(op, p) || this.endsBefore(op, p) || this.equals(p, op) || this.isBefore(op, p)) {
+                if (this.isAncestor(op, p) ||
+                    this.endsBefore(op, p) ||
+                    this.equals(p, op) ||
+                    this.isBefore(op, p)) {
                     p[op.length - 1]++;
                 }
                 break;
@@ -122,12 +125,14 @@ export const PathUtils = {
                 break;
             //合并节点，默认与将path指代的节点和path指代的节点前面一个节点合并
             case "merge_node":
-                if (this.equals(op, p) || this.endsBefore(op, p) || this.isBefore(op, p)) {
+                if (this.equals(op, p) ||
+                    this.endsBefore(op, p) ||
+                    this.isBefore(op, p)) {
                     p[op.length - 1]--;
                 }
                 else if (this.isAncestor(op, p)) {
                     p[op.length - 1]--;
-                    p[p.length - 1] += op.count;
+                    p[op.length] += operation.count;
                 }
                 break;
             case "split_node":
@@ -143,9 +148,9 @@ export const PathUtils = {
                     p[op.length - 1]++;
                 }
                 else if (this.isAncestor(op, p)) {
-                    if (p[op.length] >= op.count) {
+                    if (p[op.length] >= operation.count) {
                         p[op.length - 1]++;
-                        p[op.length] -= op.count;
+                        p[op.length] -= operation.count;
                     }
                 }
                 break;

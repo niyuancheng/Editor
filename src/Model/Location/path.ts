@@ -1,5 +1,9 @@
 import { ExtendedTypes } from "../../custom-types";
-import { MergeNodeOperation, Operation, SplitNodeOperation } from "../Operation/operation";
+import {
+  MergeNodeOperation,
+  Operation,
+  SplitNodeOperation,
+} from "../Operation/operation";
 import { PathTransformOptions } from "../../types/index";
 
 export type BasePath = number[];
@@ -22,7 +26,11 @@ export interface PathInterface {
   endsAfter: (path: Path, another: Path) => boolean;
   endsAt: (path: Path, another: Path) => boolean;
   endsBefore: (path: Path, another: Path) => boolean;
-  transform: (path: Path, operation: Operation ,options?: PathTransformOptions) => Path | null;
+  transform: (
+    path: Path,
+    operation: Operation,
+    options?: PathTransformOptions
+  ) => Path | null;
 }
 
 export const PathUtils: PathInterface = {
@@ -146,78 +154,91 @@ export const PathUtils: PathInterface = {
     return this.equals(as, bs);
   },
 
-  transform(path:Path, operation:Operation, options: PathTransformOptions = {}): Path | null {
+  transform(
+    path: Path,
+    operation: Operation,
+    options: PathTransformOptions = {}
+  ): Path | null {
     let p = [...path];
-    let { path:op } = operation;
+    let { path: op } = operation;
     let { direction = "forward" } = options;
 
-    switch(operation.type) {
+    switch (operation.type) {
       case "insert_node":
-        if(this.isAncestor(op,p) || this.endsBefore(op,p) || this.equals(p,op) || this.isBefore(op,p)) {
-          p[op.length-1]++;
+        if (
+          this.isAncestor(op, p) ||
+          this.endsBefore(op, p) ||
+          this.equals(p, op) ||
+          this.isBefore(op, p)
+        ) {
+          p[op.length - 1]++;
         }
         break;
 
       case "remove_node":
-        if(this.endsAfter(p,op) || this.isAfter(p,op)) {
+        if (this.endsAfter(p, op) || this.isAfter(p, op)) {
           p[op.length]--;
-        } else if(this.equals(p,op) || this.isAncestor(op,p)) {
+        } else if (this.equals(p, op) || this.isAncestor(op, p)) {
           return null;
         }
         break;
 
       //合并节点，默认与将path指代的节点和path指代的节点前面一个节点合并
       case "merge_node":
-        if(this.equals(op,p) || this.endsBefore(op,p) || this.isBefore(op,p)) {
-          p[op.length-1]--;
-        } else if(this.isAncestor(op,p)) {
-          p[op.length-1]--;
-          p[p.length-1] += (op as unknown as MergeNodeOperation).count;
+        if (
+          this.equals(op, p) ||
+          this.endsBefore(op, p) ||
+          this.isBefore(op, p)
+        ) {
+          p[op.length - 1]--;
+        } else if (this.isAncestor(op, p)) {
+          p[op.length - 1]--;
+          p[op.length] += operation.count;
         }
         break;
 
       case "split_node":
-        if(this.equals(op,p)) {
-          if(direction === "forward") {
+        if (this.equals(op, p)) {
+          if (direction === "forward") {
             //do nothing
           } else {
-            p[p.length-1]++;
+            p[p.length - 1]++;
           }
-        } else if(this.endsBefore(op,p) || this.isBefore(op,p)) {
-          p[op.length-1]++;
-        } else if(this.isAncestor(op,p)) {
-          if(p[op.length] >= (op as unknown as SplitNodeOperation).count) {
-            p[op.length-1]++;
-            p[op.length] -= (op as unknown as SplitNodeOperation).count;
+        } else if (this.endsBefore(op, p) || this.isBefore(op, p)) {
+          p[op.length - 1]++;
+        } else if (this.isAncestor(op, p)) {
+          if (p[op.length] >= operation.count) {
+            p[op.length - 1]++;
+            p[op.length] -= operation.count;
           }
         }
         break;
 
       case "move_node":
-        let { newPath:new_op } = operation;
-        if(this.equals(op,new_op)) return null;
+        let { newPath: new_op } = operation;
+        if (this.equals(op, new_op)) return null;
         //1. 首先判断op和p之间的关系
-        if(this.equals(op,p)) {
-          if(this.endsAfter(new_op,op) && new_op.length > op.length) {
+        if (this.equals(op, p)) {
+          if (this.endsAfter(new_op, op) && new_op.length > op.length) {
             new_op[op.length]--;
           }
           p = new_op;
-        } else if(this.isAncestor(op,p)) {
-          if(this.endsAfter(new_op,op) && new_op.length > op.length) {
+        } else if (this.isAncestor(op, p)) {
+          if (this.endsAfter(new_op, op) && new_op.length > op.length) {
             new_op[op.length]--;
           }
-          p = new_op.concat(p.slice(op.length,p.length));
-        } else if(this.endsBefore(op,p)) {
+          p = new_op.concat(p.slice(op.length, p.length));
+        } else if (this.endsBefore(op, p)) {
           p[op.length - 1]--;
-          if(this.endsBefore(new_op,p) || this.equals(new_op,p)) {
+          if (this.endsBefore(new_op, p) || this.equals(new_op, p)) {
             p[new_op.length - 1]++;
           }
         } else {
           // 2.接着开始判断new_op和p之间的关系
-          if(this.endsBefore(new_op,p)) {
+          if (this.endsBefore(new_op, p)) {
             p[new_op.length - 1]++;
-          } else if(this.equals(new_op,p)) {
-            p[p.length-1]++;
+          } else if (this.equals(new_op, p)) {
+            p[p.length - 1]++;
           }
         }
         break;

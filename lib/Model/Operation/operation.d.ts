@@ -42,6 +42,7 @@ export type BaseRemoveTextOperation = {
     type: "remove_text";
     path: Path;
     offset: number;
+    text: string;
 };
 export type RemoveTextOperation = ExtendedTypes<"RemoveTextOperation", BaseRemoveTextOperation>;
 export type TextOperation = InsertTextOperation | RemoveTextOperation;

@@ -4,7 +4,8 @@
   "description": "Rich Text Editor",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rollup -cw"
+    "build:rollup": "rollup -cw",
+    "build:tsc": "tsc"
   },
   "author": "novani",
   "license": "ISC",

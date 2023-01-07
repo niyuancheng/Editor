@@ -8,4 +8,5 @@ export * from "./Model/Node/element";
 export * from "./Model/Node/editor";
 export * from "./Model/Node/node";
 export * from "./Model/Operation/operation";
+export * from "./types";
 export * from "./custom-types";

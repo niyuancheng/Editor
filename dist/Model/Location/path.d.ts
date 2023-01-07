@@ -1,6 +1,6 @@
 import { ExtendedTypes } from "../../custom-types";
 import { Operation } from "../Operation/operation";
-import { PathTransformOptions } from "./path-transfrom-options";
+import { PathTransformOptions } from "../../types/index";
 export type BasePath = number[];
 export type Path = ExtendedTypes<"Text", BasePath>;
 export interface PathInterface {
@@ -19,6 +19,6 @@ export interface PathInterface {
     endsAfter: (path: Path, another: Path) => boolean;
     endsAt: (path: Path, another: Path) => boolean;
     endsBefore: (path: Path, another: Path) => boolean;
-    transform: (path: Path, operation: Operation, options?: PathTransformOptions) => Path | never;
+    transform: (path: Path, operation: Operation, options?: PathTransformOptions) => Path | null;
 }
 export declare const PathUtils: PathInterface;
